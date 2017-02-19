@@ -4,8 +4,8 @@
 AC_PREREQ([2.69])
 AC_INIT([libfcgi], [v1.21], [toshic@github])
 AC_CONFIG_SRCDIR([fcgi_config.h.in])
+AM_INIT_AUTOMAKE([1.10 subdir-objects foreign -Wall -Werror])
 AM_CONFIG_HEADER(fcgi_config.h)
-AM_INIT_AUTOMAKE([1.10 foreign -Wall -Werror])
 
 LT_INIT
 AC_CONFIG_MACRO_DIR([m4])
@@ -19,7 +19,6 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AM_PROG_CC_C_O
-AC_PROG_LIBTOOL
 
 # Checks for header files.
 AC_CHECK_HEADERS([arpa/inet.h fcntl.h limits.h memory.h netdb.h netinet/in.h stdlib.h string.h sys/param.h sys/socket.h sys/time.h sys/timeb.h unistd.h])
