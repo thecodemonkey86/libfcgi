@@ -1,7 +1,8 @@
 # $Id: Makefile.am,v 1.9 2001/12/22 03:16:20 robs Exp $
 
 INCLUDEDIR  = ../include
-CPPFLAGS    = @CPPFLAGS@ -I$(top_srcdir)/include
+
+AM_CFLAGS = -I$(top_srcdir)/include
 
 INCLUDE_FILES = $(INCLUDEDIR)/fastcgi.h     \
                 $(INCLUDEDIR)/fcgiapp.h     \
@@ -17,11 +18,11 @@ libfcgi_la_SOURCES = $(INCLUDE_FILES)  \
                      fcgi_stdio.c      \
                      os_@SYSTEM@.c
 libfcgi_la_CC      = @PTHREAD_CC@
-libfcgi_la_CFLAGS  = @PTHREAD_CFLAGS@
+libfcgi_la_CFLAGS  = @PTHREAD_CFLAGS@ $(AM_CFLAGS)
 
 libfcgi___la_SOURCES = $(INCLUDE_FILES)       \
                        $(INCLUDEDIR)/fcgio.h  \
                        fcgio.cpp
-libfcgi___la_CFLAGS  = @PTHREAD_CFLAGS@
+libfcgi___la_CFLAGS  = @PTHREAD_CFLAGS@ $(AM_CFLAGS)
 libfcgi___la_LDFLAGS = -lfcgi -rpath @libdir@
 

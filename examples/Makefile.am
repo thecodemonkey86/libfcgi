@@ -11,7 +11,7 @@ noinst_PROGRAMS     = authorizer        \
 EXTRA_PROGRAMS = threaded echo-cpp
 
 INCLUDEDIR  = ../include
-CPPFLAGS    = @CPPFLAGS@ -I$(top_srcdir)/include
+AM_CFLAGS    = -I$(top_srcdir)/include
 
 INCLUDE_FILES   = $(INCLUDEDIR)/fastcgi.h    \
                   $(INCLUDEDIR)/fcgiapp.h    \
@@ -30,7 +30,7 @@ authorizer_SOURCES = $(INCLUDE_FILES) authorizer.c
 
 threaded_SOURCES   = $(INCLUDE_FILES) threaded.c
 threaded_CC        = @PTHREAD_CC@
-threaded_CFLAGS    = @PTHREAD_CFLAGS@
+threaded_CFLAGS    = @PTHREAD_CFLAGS@ $(AM_CFLAGS)
 threaded_LDFLAGS   = @PTHREAD_CFLAGS@ @PTHREAD_LIBS@
 
 echo_cpp_SOURCES = $(INCLUDE_FILES) $(INCLUDEDIR)/fcgio.h echo-cpp.cpp
