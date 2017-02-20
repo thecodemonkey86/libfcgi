@@ -6,6 +6,8 @@
 
 SUBDIRS = libfcgi cgi-fcgi examples include
 
+ACLOCAL_AMFLAGS = -I m4
+
 include_HEADERS = fcgi_config.h
 
 EXTRA_DIST = LICENSE.TERMS              \

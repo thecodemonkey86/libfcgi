@@ -7,6 +7,7 @@ AC_CONFIG_SRCDIR([fcgi_config.h.in])
 AM_INIT_AUTOMAKE([1.10 subdir-objects foreign -Wall -Werror])
 AM_CONFIG_HEADER(fcgi_config.h)
 
+AM_PROG_AR
 LT_INIT
 AC_CONFIG_MACRO_DIR([m4])
 
