@@ -22,9 +22,12 @@
 #define WIN32_LEAN_AND_MEAN 
 #include <windows.h>
 #include <winsock2.h>
-#endif
 
+#define HAVE_SYS_TIME_H
+#define HAVE_SYS_TYPES_H
+#else
 #include "fcgi_config.h"
+#endif
 
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
