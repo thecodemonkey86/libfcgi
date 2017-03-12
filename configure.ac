@@ -26,8 +26,8 @@ if test "x$want_debug" = "xyes" -a $ac_cv_c_compiler_gnu != no; then
   CXXFLAGS="$CXXFLAGS -O0 -g"
   AC_DEFINE([DEBUG], 1, [Define for debugging])
 else
-  CFLAGS="$CFLAGS -O2 -D_FORTIFY_SOURCE=2"
-  CXXFLAGS="$CXXFLAGS -O2 -D_FORTIFY_SOURCE=2"
+  CFLAGS="$CFLAGS -O2"
+  CXXFLAGS="$CXXFLAGS -O2"
 fi
 
 # Checks for programs.
@@ -49,8 +49,8 @@ AC_TYPE_SIZE_T
 
 # Checks for library functions.
 AC_FUNC_FORK
-AC_FUNC_MALLOC
-AC_FUNC_REALLOC
+#AC_FUNC_MALLOC
+#AC_FUNC_REALLOC
 AC_CHECK_FUNCS([atexit dup2 ftime gethostbyname inet_ntoa memchr memset putenv select socket strchr strerror strrchr strspn strstr strtol])
 
 AC_SUBST(LIBFCGIXX)
@@ -75,7 +75,6 @@ AC_REPLACE_FUNCS([strerror])
 AC_C_INLINE
 
 AC_CONFIG_FILES([Makefile
-                 cgi-fcgi/Makefile
                  examples/Makefile
                  include/Makefile
                  libfcgi/Makefile])

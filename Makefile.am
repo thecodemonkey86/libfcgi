@@ -4,7 +4,7 @@
 #  $Id: Makefile.am,v 1.7 2001/12/22 13:05:39 robs Exp $
 #
 
-SUBDIRS = libfcgi cgi-fcgi examples include
+SUBDIRS = libfcgi examples include
 
 ACLOCAL_AMFLAGS = -I m4
 
