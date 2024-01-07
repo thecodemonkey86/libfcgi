@@ -457,7 +457,7 @@ int OS_LibInit(int stdioFds[3])
     }
 
     if ((fakeFd = Win32NewDescriptor(FD_PIPE_SYNC,
-				     (int)stdioHandles[STDIN_FILENO],
+                     (long long)stdioHandles[STDIN_FILENO],
 				     STDIN_FILENO)) == -1) {
         return -1;
     } else {
@@ -1791,7 +1791,7 @@ int OS_Accept(int listen_sock, int fail_on_intr, const char *webServerAddrs)
  *
  *----------------------------------------------------------------------
  */
-int OS_IpcClose(int ipcFd)
+int OS_IpcClose(size_t ipcFd)
 {
     if (ipcFd == -1) return 0;
 

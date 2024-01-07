@@ -44,9 +44,9 @@ typedef struct {
  * The four new functions and two new macros
  */
 
-DLLAPI int FCGI_Accept(void);
+DLLAPI size_t FCGI_Accept(void);
 DLLAPI void FCGI_Finish(void);
-DLLAPI int FCGI_StartFilterData(void);
+DLLAPI size_t FCGI_StartFilterData(void);
 DLLAPI void FCGI_SetExitStatus(int status);
 
 #define FCGI_ToFILE(fcgi_file) (fcgi_file->stdio_stream)
@@ -70,23 +70,23 @@ DLLAPI extern	FCGI_FILE	_fcgi_sF[];
 DLLAPI void FCGI_perror(const char *str);
 
 DLLAPI FCGI_FILE *FCGI_fopen(const char *path, const char *mode);
-DLLAPI int        FCGI_fclose(FCGI_FILE *fp);
-DLLAPI int        FCGI_fflush(FCGI_FILE *fp);
+DLLAPI size_t        FCGI_fclose(FCGI_FILE *fp);
+DLLAPI size_t        FCGI_fflush(FCGI_FILE *fp);
 DLLAPI FCGI_FILE *FCGI_freopen(const char *path, const char *mode, FCGI_FILE *fp);
 
-DLLAPI int        FCGI_setvbuf(FCGI_FILE *fp, char *buf, int bufmode, size_t size);
+DLLAPI size_t        FCGI_setvbuf(FCGI_FILE *fp, char *buf, int bufmode, size_t size);
 DLLAPI void       FCGI_setbuf(FCGI_FILE *fp, char *buf);
 
-DLLAPI int        FCGI_fseek(FCGI_FILE *fp, long offset, int whence);
-DLLAPI int        FCGI_ftell(FCGI_FILE *fp);
+DLLAPI size_t        FCGI_fseek(FCGI_FILE *fp, long offset, int whence);
+DLLAPI size_t        FCGI_ftell(FCGI_FILE *fp);
 DLLAPI void       FCGI_rewind(FCGI_FILE *fp);
 #ifdef HAVE_FPOS
 DLLAPI int        FCGI_fgetpos(FCGI_FILE *fp, fpos_t *pos);
 DLLAPI int        FCGI_fsetpos(FCGI_FILE *fp, const fpos_t *pos);
 #endif
-DLLAPI int        FCGI_fgetc(FCGI_FILE *fp);
-DLLAPI int        FCGI_getchar(void);
-DLLAPI int        FCGI_ungetc(int c, FCGI_FILE *fp);
+DLLAPI size_t FCGI_fgetc(FCGI_FILE *fp);
+DLLAPI size_t FCGI_getchar(void);
+DLLAPI size_t        FCGI_ungetc(int c, FCGI_FILE *fp);
 
 DLLAPI char      *FCGI_fgets(char *str, int size, FCGI_FILE *fp);
 DLLAPI char      *FCGI_gets(char *str);
@@ -99,31 +99,31 @@ DLLAPI char      *FCGI_gets(char *str);
  *
  */
 
-DLLAPI int        FCGI_fputc(int c, FCGI_FILE *fp);
-DLLAPI int        FCGI_putchar(int c);
+DLLAPI size_t        FCGI_fputc(int c, FCGI_FILE *fp);
+DLLAPI size_t        FCGI_putchar(int c);
 
-DLLAPI int        FCGI_fputs(const char *str, FCGI_FILE *fp);
-DLLAPI int        FCGI_puts(const char *str);
+DLLAPI size_t        FCGI_fputs(const char *str, FCGI_FILE *fp);
+DLLAPI size_t        FCGI_puts(const char *str);
 
-DLLAPI int        FCGI_fprintf(FCGI_FILE *fp, const char *format, ...);
-DLLAPI int        FCGI_printf(const char *format, ...);
+DLLAPI size_t        FCGI_fprintf(FCGI_FILE *fp, const char *format, ...);
+DLLAPI size_t        FCGI_printf(const char *format, ...);
 
-DLLAPI int        FCGI_vfprintf(FCGI_FILE *fp, const char *format, va_list ap);
-DLLAPI int        FCGI_vprintf(const char *format, va_list ap);
+DLLAPI size_t        FCGI_vfprintf(FCGI_FILE *fp, const char *format, va_list ap);
+DLLAPI size_t        FCGI_vprintf(const char *format, va_list ap);
 
 DLLAPI size_t     FCGI_fread(void *ptr, size_t size, size_t nmemb, FCGI_FILE *fp);
 DLLAPI size_t     FCGI_fwrite(void *ptr, size_t size, size_t nmemb, FCGI_FILE *fp);
 
-DLLAPI int        FCGI_feof(FCGI_FILE *fp);
-DLLAPI int        FCGI_ferror(FCGI_FILE *fp);
+DLLAPI size_t        FCGI_feof(FCGI_FILE *fp);
+DLLAPI size_t        FCGI_ferror(FCGI_FILE *fp);
 DLLAPI void       FCGI_clearerr(FCGI_FILE *fp);
 
 DLLAPI FCGI_FILE *FCGI_tmpfile(void);
 
-DLLAPI int        FCGI_fileno(FCGI_FILE *fp);
+DLLAPI size_t        FCGI_fileno(FCGI_FILE *fp);
 DLLAPI FCGI_FILE *FCGI_fdopen(int fd, const char *mode);
 DLLAPI FCGI_FILE *FCGI_popen(const char *cmd, const char *type);
-DLLAPI int        FCGI_pclose(FCGI_FILE *);
+DLLAPI size_t        FCGI_pclose(FCGI_FILE *);
 
 /*
  * The remaining definitions are for application programs,

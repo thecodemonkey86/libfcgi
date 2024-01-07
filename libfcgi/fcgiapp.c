@@ -38,11 +38,11 @@ static const char rcsid[] = "$Id: fcgiapp.c,v 1.34 2001/12/12 22:54:10 robs Exp 
 #endif
 
 #ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
+//#include <sys/time.h>
 #endif
 
 #ifdef HAVE_UNISTD_H
-#include <unistd.h>
+//#include <unistd.h>
 #endif
 
 #ifdef HAVE_LIMITS_H
@@ -91,7 +91,7 @@ static void *Malloc(size_t size)
 
 static char *StringCopy(char *str)
 {
-    int strLen = strlen(str);
+    size_t strLen = strlen(str);
     char *newString = (char *)Malloc(strLen + 1);
     memcpy(newString, str, strLen);
     newString[strLen] = '\000';
@@ -111,7 +111,7 @@ static char *StringCopy(char *str)
  *
  *----------------------------------------------------------------------
  */
-int FCGX_GetChar(FCGX_Stream *stream)
+size_t FCGX_GetChar(FCGX_Stream *stream)
 {
     if (stream->isClosed || ! stream->isReader)
         return EOF;
@@ -146,9 +146,9 @@ int FCGX_GetChar(FCGX_Stream *stream)
  *
  *----------------------------------------------------------------------
  */
-int FCGX_GetStr(char *str, int n, FCGX_Stream *stream)
+size_t FCGX_GetStr(char *str, size_t n, FCGX_Stream *stream)
 {
-    int m, bytesMoved;
+    size_t m, bytesMoved;
 
     if (stream->isClosed || ! stream->isReader || n <= 0) {
         return 0;
@@ -203,9 +203,9 @@ int FCGX_GetStr(char *str, int n, FCGX_Stream *stream)
  *
  *----------------------------------------------------------------------
  */
-char *FCGX_GetLine(char *str, int n, FCGX_Stream *stream)
+char *FCGX_GetLine(char *str, size_t n, FCGX_Stream *stream)
 {
-    int c;
+    size_t c;
     char *p = str;
 
     n--;
@@ -240,7 +240,7 @@ char *FCGX_GetLine(char *str, int n, FCGX_Stream *stream)
  *
  *----------------------------------------------------------------------
  */
-int FCGX_UnGetChar(int c, FCGX_Stream *stream) {
+size_t FCGX_UnGetChar(int c, FCGX_Stream *stream) {
     if(c == EOF
             || stream->isClosed
             || !stream->isReader
@@ -285,7 +285,7 @@ int FCGX_HasSeenEOF(FCGX_Stream *stream) {
  *
  *----------------------------------------------------------------------
  */
-int FCGX_PutChar(int c, FCGX_Stream *stream)
+size_t FCGX_PutChar(size_t c, FCGX_Stream *stream)
 {
     if(stream->wrNext != stream->stop)
         return (*stream->wrNext++ = (unsigned char) c);
@@ -313,9 +313,9 @@ int FCGX_PutChar(int c, FCGX_Stream *stream)
  *
  *----------------------------------------------------------------------
  */
-int FCGX_PutStr(const char *str, int n, FCGX_Stream *stream)
+size_t FCGX_PutStr(const char *str, size_t n, FCGX_Stream *stream)
 {
-    int m, bytesMoved;
+    size_t m, bytesMoved;
 
     /*
      * Fast path: room for n bytes in the buffer
@@ -359,7 +359,7 @@ int FCGX_PutStr(const char *str, int n, FCGX_Stream *stream)
  *
  *----------------------------------------------------------------------
  */
-int FCGX_PutS(const char *str, FCGX_Stream *stream)
+size_t FCGX_PutS(const char *str, FCGX_Stream *stream)
 {
     return FCGX_PutStr(str, strlen(str), stream);
 }
@@ -378,7 +378,7 @@ int FCGX_PutS(const char *str, FCGX_Stream *stream)
  *
  *----------------------------------------------------------------------
  */
-int FCGX_FPrintF(FCGX_Stream *stream, const char *format, ...)
+size_t FCGX_FPrintF(FCGX_Stream *stream, const char *format, ...)
 {
     int result;
     va_list ap;
@@ -414,13 +414,13 @@ int FCGX_FPrintF(FCGX_Stream *stream, const char *format, ...)
      */
 static void CopyAndAdvance(char **destPtr, char **srcPtr, int n);
 
-int FCGX_VFPrintF(FCGX_Stream *stream, const char *format, va_list arg)
+size_t FCGX_VFPrintF(FCGX_Stream *stream, const char *format, va_list arg)
 {
     char *f, *fStop, *percentPtr, *p, *fmtBuffPtr, *buffPtr;
     int op, performedOp, sizeModifier, buffCount = 0, buffLen, specifierLength;
     int fastPath, n, auxBuffLen = 0, buffReqd, minWidth, precision, exp;
     char *auxBuffPtr = NULL;
-    int streamCount = 0;
+    size_t streamCount = 0;
     char fmtBuff[FMT_BUFFLEN];
     char buff[PRINTF_BUFFLEN];
 
@@ -890,7 +890,7 @@ static void CopyAndAdvance(char **destPtr, char **srcPtr, int n)
  *
  *----------------------------------------------------------------------
  */
-int FCGX_FFlush(FCGX_Stream *stream)
+size_t FCGX_FFlush(FCGX_Stream *stream)
 {
     if(stream->isClosed || stream->isReader)
         return 0;
@@ -915,7 +915,7 @@ int FCGX_FFlush(FCGX_Stream *stream)
  *
  *----------------------------------------------------------------------
  */
-int FCGX_FClose(FCGX_Stream *stream)
+size_t FCGX_FClose(FCGX_Stream *stream)
 {
     if (stream == NULL) return 0;
 
@@ -967,7 +967,7 @@ static void SetError(FCGX_Stream *stream, int FCGI_errno)
  *
  *----------------------------------------------------------------------
  */
-int FCGX_GetError(FCGX_Stream *stream) {
+size_t FCGX_GetError(FCGX_Stream *stream) {
     return stream->FCGI_errno;
 }
 
@@ -1942,7 +1942,7 @@ FCGX_Stream *FCGX_CreateWriter(
  *
  *----------------------------------------------------------------------
  */
-int FCGX_IsCGI(void)
+size_t FCGX_IsCGI(void)
 {
     if (isFastCGI != -1) {
         return !isFastCGI;
@@ -2026,7 +2026,7 @@ void FCGX_Finish_r(FCGX_Request *reqDataPtr)
     FCGX_Free(reqDataPtr, close);
 }
 
-void FCGX_Free(FCGX_Request * request, int close)
+void FCGX_Free(FCGX_Request * request, size_t close)
 {
     if (request == NULL) 
         return;
@@ -2042,7 +2042,7 @@ void FCGX_Free(FCGX_Request * request, int close)
     }
 }
 
-int FCGX_OpenSocket(const char *path, int backlog)
+size_t FCGX_OpenSocket(const char *path, int backlog)
 {
     int rc = OS_CreateLocalIpcFd(path, backlog);
     if (rc == FCGI_LISTENSOCK_FILENO && isFastCGI == 0) {
@@ -2052,7 +2052,7 @@ int FCGX_OpenSocket(const char *path, int backlog)
     return rc;
 }
 
-int FCGX_InitRequest(FCGX_Request *request, int sock, int flags)
+size_t FCGX_InitRequest(FCGX_Request *request, size_t sock, int flags)
 {
     memset(request, 0, sizeof(FCGX_Request));
 
@@ -2080,7 +2080,7 @@ int FCGX_InitRequest(FCGX_Request *request, int sock, int flags)
  *
  *----------------------------------------------------------------------
  */
-int FCGX_Init(void)
+size_t FCGX_Init(void)
 {
     char *p;
 
@@ -2129,7 +2129,7 @@ int FCGX_Init(void)
  *----------------------------------------------------------------------
  */
 
-int FCGX_Accept(
+size_t FCGX_Accept(
         FCGX_Stream **in,
         FCGX_Stream **out,
         FCGX_Stream **err,
@@ -2181,7 +2181,7 @@ int FCGX_Accept(
  *
  *----------------------------------------------------------------------
  */
-int FCGX_Accept_r(FCGX_Request *reqDataPtr)
+size_t FCGX_Accept_r(FCGX_Request *reqDataPtr)
 {
     if (!libInitialized) {
         return -9998;
@@ -2279,7 +2279,7 @@ TryAgain:
  *----------------------------------------------------------------------
  */
 
-int FCGX_StartFilterData(FCGX_Stream *stream)
+size_t FCGX_StartFilterData(FCGX_Stream *stream)
 {
     FCGX_Stream_Data *data = (FCGX_Stream_Data *)stream->data;
     if(data->reqDataPtr->role != FCGI_FILTER

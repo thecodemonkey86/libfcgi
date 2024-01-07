@@ -30,7 +30,7 @@
 #endif
 
 #ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
+//#include <sys/time.h>
 #endif
 
 #ifdef HAVE_SYS_TYPES_H
@@ -120,7 +120,7 @@ DLLAPI int OS_Close(int fd);
 DLLAPI int OS_CloseRead(int fd);
 DLLAPI int OS_DoIo(struct timeval *tmo);
 DLLAPI int OS_Accept(int listen_sock, int fail_on_intr, const char *webServerAddrs);
-DLLAPI int OS_IpcClose(int ipcFd);
+DLLAPI int OS_IpcClose(size_t ipcFd);
 DLLAPI int OS_IsFcgi(int sock);
 DLLAPI void OS_SetFlags(int fd, int flags);
 
